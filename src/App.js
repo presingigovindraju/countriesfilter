@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState,useEffect} from "react";
+import Countries from "./Components/Countries.js";
 
-function App() {
+const App =()=>{
+  const [enterName,setEnteredName] = useState("")
+  const [filteredCountries,setFilteredCountries] = useState(Countries)
+
+  useEffect(()=>{
+    searchInputName()
+  },[enterName])
+
+
+  function searchInputName(){
+     setFilteredCountries(Countries.filter((countries)=>countries.toLocaleLowerCase().includes(enterName.toLocaleLowerCase())))
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Live Searching</h1>
+      <form onSubmit={searchInputName}>
+        <input type="text" placeholder="Enter country Name" onChange={(e)=>setEnteredName(e.target.value)}/>
+        {/* <button>Submit</button> */}
+      </form>
+      {
+         filteredCountries.map((countries,index)=>(
+         <p key={index}>{countries}</p>
+         ))
+      }
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
